@@ -49,10 +49,11 @@ export default class Upload {
     this.opts = opts
     this.meta = new FileMeta(opts.id, opts.file.size, opts.chunkSize, opts.storage)
     this.processor = new FileProcessor(opts.file, opts.chunkSize)
+    this.lastRes = null
   }
 
   async start () {
-    const { meta, processor, opts, finished } = this
+    const { meta, processor, opts, finished, lastRes } = this
 
     const resumeUpload = async () => {
       const localResumeIndex = meta.getResumeIndex()
@@ -105,6 +106,8 @@ export default class Upload {
         chunkIndex: index,
         chunkLength: chunk.byteLength
       })
+
+      lastRes = res
     }
 
     const validateChunk = async (newChecksum, index) => {
@@ -145,6 +148,8 @@ export default class Upload {
     debug('Upload complete, resetting meta')
     meta.reset()
     this.finished = true
+
+    return lastRes.data
   }
 
   pause () {
