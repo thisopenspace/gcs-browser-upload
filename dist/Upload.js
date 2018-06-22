@@ -117,12 +117,12 @@ var Upload = function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var _this = this;
 
-        var meta, processor, opts, finished, lastRes, resumeUpload, uploadChunk, validateChunk, getRemoteResumeIndex;
+        var meta, processor, opts, finished, resumeUpload, uploadChunk, validateChunk, getRemoteResumeIndex;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                meta = this.meta, processor = this.processor, opts = this.opts, finished = this.finished, lastRes = this.lastRes;
+                meta = this.meta, processor = this.processor, opts = this.opts, finished = this.finished;
 
                 resumeUpload = function () {
                   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -340,9 +340,14 @@ var Upload = function () {
                 meta.reset();
                 this.finished = true;
 
-                return _context5.abrupt('return', lastRes.data);
+                if (!this.lastRes.data) {
+                  _context5.next = 21;
+                  break;
+                }
 
-              case 20:
+                return _context5.abrupt('return', this.lastRes.data);
+
+              case 21:
               case 'end':
                 return _context5.stop();
             }

@@ -53,7 +53,7 @@ export default class Upload {
   }
 
   async start () {
-    const { meta, processor, opts, finished, lastRes } = this
+    const { meta, processor, opts, finished } = this
 
     const resumeUpload = async () => {
       const localResumeIndex = meta.getResumeIndex()
@@ -149,7 +149,9 @@ export default class Upload {
     meta.reset()
     this.finished = true
 
-    return lastRes.data
+    if (this.lastRes.data) {
+      return this.lastRes.data
+    }
   }
 
   pause () {
