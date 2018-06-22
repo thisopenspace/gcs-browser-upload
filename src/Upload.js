@@ -107,7 +107,7 @@ export default class Upload {
         chunkLength: chunk.byteLength
       })
 
-      lastRes = res
+      this.lastRes = res
     }
 
     const validateChunk = async (newChecksum, index) => {
